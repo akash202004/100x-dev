@@ -98,3 +98,49 @@ const App = () => {
 export default App;
 
 ```
+
+# use of useCallback for memorize fnc for prevent extra rerendering
+
+```
+useCallback = function
+useMemo = number/string(value)
+
+import React, { memo, useCallback, useState } from "react";
+
+const App = () => {
+  const [count, setCount] = useState(0);
+  // callback
+  const inputfnc = useCallback(() => {
+    console.log("hi there");
+  }, []);
+
+  // its render
+  // two fnc body are equal but referencially different
+  //   function inputfnc() {
+  //     console.log("render");
+  //   }
+
+  return (
+    <div>
+      <ButtonComponent inpuValue={inputfnc} />
+      <br />
+      <br />
+      <button onClick={() => setCount(count + 1)}>
+        Click to increase : {count}
+      </button>
+    </div>
+  );
+};
+
+const ButtonComponent = memo(({ inpuValue }) => {
+  console.log("child render");
+  return (
+    <div>
+      <button>Click Me</button>
+    </div>
+  );
+});
+
+export default App;
+
+```

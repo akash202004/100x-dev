@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>
+        Sum
+    </h1>
+    <input type="text" id="sum1" placeholder="Principal Amount">
+    <input type="text" id="sum2" placeholder="Rate">
+    <input type="text" id="sum3" placeholder="Time">
+    <button id="sum" onclick="intrestRate()">Intrest</button>
+    <h1 id="ans"></h1>
+
+
+    <script>
+        async function intrestRate() {
+            let Principal = document.querySelector("#sum1").value;
+            let Rate = document.querySelector("#sum2").value;
+            let Time = document.querySelector("#sum3").value;
+            const response = await fetch("http://sum-server.100xdevs.com/intrest?principal=" + Principal + "&rate=" + Rate + "&time=" + Time)
+            const data = await response.text();
+            document.querySelector("#ans").innerHTML = data;
+        }
+
+    </script>
+</body>
+
+</html>

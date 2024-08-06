@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Todo</h1>
+    <input type="text" id="title" placeholder="title">
+    <input type="text" id="des" placeholder="description">
+    <button onclick="addTodo2()">Add Todo</button>
+    <div id="cont">
+
+    </div>
+
+
+    <script>
+        function addTodo() {
+            const title = document.getElementById('title').value;
+            const des = document.getElementById('des').value;
+            const originalHtml = document.getElementById('cont').innerHTML;
+            document.getElementById('cont').innerHTML = originalHtml + `
+            <div>
+                <div>${title}</div>
+                <div>${des}</div>
+                <button>ADD TODO</button>
+            </div>
+            `
+        }
+
+        function addTodo1() {
+            const title = document.getElementById('title').value;
+            const des = document.getElementById('des').value;
+            const outerDiv = document.createElement('div');
+            outerDiv.innerHTML = title;
+            document.getElementById('cont').appendChild(outerDiv);
+        }
+
+        let globalId = 1;
+
+        function addTodo2() {
+            const title = document.getElementById('title').value;
+            const des = document.getElementById('des').value;
+            const outerDiv = document.getElementById('cont');
+            outerDiv.appendChild(createChild(title, des, globalId++));
+        }
+
+        function createChild(title, desc, id) {
+            const child = document.createElement('div');
+            const first = document.createElement('div');
+            first.innerHTML = title;
+            const second = document.createElement('div');
+            second.innerHTML = desc;
+            const third = document.createElement('button');
+            third.innerHTML = "Mark as done!";
+            third.setAttribute("onclick", `markasDone(${id})`);
+            child.appendChild(first);
+            child.appendChild(second);
+            child.appendChild(third);
+            child.setAttribute('id', id);
+            return child;
+        }
+
+        function markasDone(id) {
+            const parent = document.getElementById(id);
+            parent.children[2].innerHTML = "Done!"
+        }
+    </script>
+</body>
+
+</html>

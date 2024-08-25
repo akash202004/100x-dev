@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Custom React Rendering</title>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script>
+        const reactElement = {
+            type: "a",
+            props: {
+                href: "https://www.google.com",
+                children: "click to redirect to google"
+            }
+        };
+
+        function generateHTML(reactElement) {
+            const { type, props } = reactElement;
+            const tag = document.createElement(type);
+
+            for (const prop in props) {
+                if (prop === "children") {
+                    tag.textContent = props[prop];
+                } else {
+                    tag.setAttribute(prop, props[prop]);
+                }
+            }
+            return tag;
+        }
+
+        function customRender(reactElement, rootId) {
+            const rootElement = document.getElementById(rootId);
+            const element = generateHTML(reactElement);
+            rootElement.appendChild(element);
+        }
+
+        customRender(reactElement, 'root');
+    </script>
+</body>
+
+</html>

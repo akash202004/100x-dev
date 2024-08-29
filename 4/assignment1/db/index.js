@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://akashlaha48:akashlaha48@cluster0.eipya.mongodb.net/course_selling_db')
+mongoose.connect(process.env.MONGO_URL);
 
 const AdminSchema = new mongoose.Schema({
     username: String,

@@ -2,6 +2,7 @@ const userSchema = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const zod = require('zod');
 const bcrypt = require('bcrypt');
+const accountSchema = require('../models/accountSchema');
 
 // sign up 
 const signupController = async (req, res) => {
@@ -21,6 +22,10 @@ const signupController = async (req, res) => {
             password: hashedPassword
         });
         await newUser.save();
+        const randomBalance = await accountSchema.create({ userId: newUser._id, balance: 1 + Math.random() * 1000 });
+        if (!randomBalance) {
+            return res.status(400).json({ message: 'Error assigning random balance to user!!' });
+        }
         const token = jwt.sign({ email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1d' })
         res.status(201).json({ message: 'User created successfully!!', token: token });
 

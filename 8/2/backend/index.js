@@ -2,6 +2,7 @@ const express = require('express');
 const dbConnect = require('./config/db');
 const dotenv = require('dotenv');
 const userRoute = require('./routes/userRoute');
+const accountRoute = require("./routes/accountRoute");
 const cors = require("cors");
 
 // dotenv config
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 })
 app.use('/api/users', userRoute);
+app.use('/api/accounts', accountRoute);
 
 // server listening
 app.listen(PORT, () => {

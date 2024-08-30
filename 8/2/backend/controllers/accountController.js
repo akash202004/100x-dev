@@ -66,6 +66,7 @@ const transferController = async (req, res) => {
 
     } catch (error) {
         console.log(error);
+        await session.abortTransaction();
         res.status(500).json({ message: `Transfer controller error ${error}` });
 
     }

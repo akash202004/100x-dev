@@ -1,10 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
 export const SendMoney = () => {
   const [searchParams] = useSearchParams();
   const [amount, setAmount] = useState(0);
+  const navigate = useNavigate();
   const id = searchParams.get("id");
   const token = localStorage.getItem("token");
   const name = searchParams.get("name");
@@ -21,7 +22,7 @@ export const SendMoney = () => {
         },
       }
     );
-    console.log(response.data);
+    navigate("/dashboard");
   };
   return (
     <div class="flex justify-center h-screen bg-gray-100">

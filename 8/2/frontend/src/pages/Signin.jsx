@@ -5,12 +5,14 @@ import { Heading } from "../components/Heading";
 import { InputBox } from "../components/InputBox";
 import { SubHeading } from "../components/SubHeading";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const Signin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +30,8 @@ export const Signin = () => {
         "http://localhost:3000/api/users/signin",
         formData
       );
-      localStorage.setItem("Authorization", response.data.token);
+      localStorage.setItem("token", response.data.token);
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }

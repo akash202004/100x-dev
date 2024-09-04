@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
+import IsOnline from "./IsOnline";
+import Debouncing from "./Debouncing";
 
 function App() {
   const [render, setRender] = useState(true);
@@ -14,8 +16,10 @@ function App() {
     <>
       <div>
         <h1>Akash Laha</h1>
-        {render ? <MyComponent /> : <div>2nd Div</div>}
+        {/* {render ? <MyComponent /> : <div>2nd Div</div>} */}
         {/* <CustomElementRegistry /> */}
+        {/* <IsOnline /> */}
+        <Debouncing />
       </div>
     </>
   );
@@ -56,14 +60,14 @@ function App() {
 //   }
 // }
 
-function MyComponent() {
-  useEffect(() => {
-    console.log("Mounted");
+// function MyComponent() {
+//   useEffect(() => {
+//     console.log("Mounted");
 
-    return () => console.log("Unmounted");
-  }, []);
+//     return () => console.log("Unmounted");
+//   }, []);
 
-  return <div>From Inside</div>;
-}
+//   return <div>From Inside</div>;
+// }
 
-export default App;
+// export default App;

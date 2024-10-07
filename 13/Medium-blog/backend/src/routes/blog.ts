@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
+import { createBlogInput, updateBlogInput } from "medium-vlog-project";
 
 // Create a new blog router
 export const blogRouter = new Hono<{
@@ -54,6 +55,11 @@ blogRouter.post("/", async (c) => {
     if (!body.title || !body.content) {
       return c.json("Invalid title or content");
     }
+    const { success } = createBlogInput.safeParse(body);
+    if (!success) {
+      c.status(411);
+      return c.json("Invalid input");
+    }
     const authorId = c.get("authorId");
     const blog = await prisma.post.create({
       data: {
@@ -82,6 +88,11 @@ blogRouter.put("/", async (c) => {
 
   try {
     const body = await c.req.json();
+    const { success } = updateBlogInput.safeParse(body);
+    if (!success) {
+      c.status(411);
+      return c.json("Invalid input");
+    }
     const blog = await prisma.post.update({
       where: {
         id: body.id,

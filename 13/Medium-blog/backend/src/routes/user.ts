@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { decode, verify, sign } from "hono/jwt";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
+import { signupInput } from "../zod";
 
 export const userRouter = new Hono<{
   Bindings: {
@@ -18,6 +19,11 @@ userRouter.post("/signup", async (c) => {
 
   try {
     const body = await c.req.json();
+    const {success} = signupInput.safeParse(body);
+    if(!success) {
+      c.status(411);
+      return c.json("Invalid input");
+    }
     if (!body.email || !body.password) {
       return c.json("Invalid email or password");
     }

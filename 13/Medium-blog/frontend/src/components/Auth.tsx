@@ -35,12 +35,14 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       </h4>
 
       <form onSubmit={handleSubmit} className="w-full max-w-sm mt-4">
-        <LabelledInput
-          label="Username"
-          name="username"
-          placeholder="Write your username..."
-          onChange={handleInputChange}
-        />
+        {type === "signup" && (
+          <LabelledInput
+            label="Username"
+            name="username"
+            placeholder="Write your username..."
+            onChange={handleInputChange}
+          />
+        )}
         <LabelledInput
           label="Email"
           name="email"

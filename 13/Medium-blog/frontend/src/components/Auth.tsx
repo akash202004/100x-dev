@@ -1,8 +1,11 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SignupInput } from "medium-vlog-project";
+import axios from "axios";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
+  const apiUrl = import.meta.env.VITE_APP_API_URL;
+  const navigate = useNavigate(); 
   const [postInputs, setPostInputs] = useState<SignupInput>({
     username: "",
     email: "",
@@ -14,8 +17,28 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     setPostInputs({ ...postInputs, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      if (type === "signup") {
+        const response = await axios.post(`${apiUrl}/api/v1/user/signup`, {
+          username: postInputs.username,
+          email: postInputs.email,
+          password: postInputs.password,
+        });
+        console.log("Signup Success:", response.data);
+        navigate("/blog");
+      } else if (type === "signin") {
+        const response = await axios.post(`${apiUrl}/api/v1/user/signin`, {
+          email: postInputs.email,
+          password: postInputs.password,
+        });
+        console.log("Signin Success:", response.data);
+      }
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
   };
 
   return (

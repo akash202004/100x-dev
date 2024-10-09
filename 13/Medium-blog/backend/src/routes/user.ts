@@ -30,7 +30,7 @@ userRouter.post("/signup", async (c) => {
 
     const user = await prisma.user.create({
       data: {
-        name: body?.name,
+        username: body?.username,
         email: body.email,
         password: body.password,
       },

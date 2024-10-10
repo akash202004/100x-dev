@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignupInput, signupInput, signinInput } from "medium-vlog-project";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; 
+import "react-toastify/dist/ReactToastify.css";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const apiUrl = import.meta.env.VITE_APP_API_URL;
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [postInputs, setPostInputs] = useState<SignupInput>({
     username: "",
@@ -24,12 +24,12 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const validateInputs = () => {
     try {
       if (type === "signup") {
-        signupInput.parse(postInputs); 
+        signupInput.parse(postInputs);
       } else {
         signinInput.parse({
           email: postInputs.email,
           password: postInputs.password,
-        }); 
+        });
       }
       return true;
     } catch (err: any) {
@@ -51,14 +51,14 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
           password: postInputs.password,
         });
         console.log("Signup Success:", response.data);
-        navigate("/blog");
+        navigate("/blogs");
       } else if (type === "signin") {
         const response = await axios.post(`${apiUrl}/api/v1/user/signin`, {
           email: postInputs.email,
           password: postInputs.password,
         });
         console.log("Signin Success:", response.data);
-        navigate("/dashboard");
+        navigate("/blogs");
       }
     } catch (error) {
       toast.error("Error occurred during authentication");
@@ -73,7 +73,9 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
         {type === "signup" ? "Create an account" : "Sign in to your account"}
       </h1>
       <h4 className="text-gray-700 text-md mt-2 sm:mt-4">
-        {type === "signup" ? "Already have an account?" : "Don't have an account?"}{" "}
+        {type === "signup"
+          ? "Already have an account?"
+          : "Don't have an account?"}{" "}
         <span className="underline font-bold">
           <Link to={type === "signup" ? "/signin" : "/signup"}>
             {type === "signup" ? "Login" : "Sign up"}
@@ -103,16 +105,16 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
           placeholder="Write your password..."
           onChange={handleInputChange}
         />
-        
+
         <button
           type="submit"
           className="bg-black rounded-lg text-white font-bold py-2 px-4 mt-6 w-full"
-          disabled={loading} 
+          disabled={loading}
         >
           {loading ? "Loading..." : type === "signup" ? "Sign Up" : "Sign In"}
         </button>
       </form>
-      <ToastContainer /> 
+      <ToastContainer />
     </div>
   );
 };

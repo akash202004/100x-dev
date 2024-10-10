@@ -11,7 +11,6 @@ export const userRouter = new Hono<{
   };
 }>();
 
-// signup
 userRouter.post("/signup", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env?.DATABASE_URL,
@@ -19,33 +18,44 @@ userRouter.post("/signup", async (c) => {
 
   try {
     const body = await c.req.json();
-    const { success } = signupInput.safeParse(body);
+    
+    const { success } = signinInput.safeParse(body);
     if (!success) {
       c.status(411);
       return c.json("Invalid input");
     }
-    if (!body.email || !body.password) {
-      return c.json("Invalid email or password");
+
+    const existingUser = await prisma.user.findUnique({
+      where: { email: body.email },
+    });
+    if (existingUser) {
+      c.status(409);
+      return c.json({ message: "User already exists with this email" });
     }
 
     const user = await prisma.user.create({
       data: {
-        username: body?.username,
+        username: body.username,
         email: body.email,
         password: body.password,
       },
     });
+    if (!user) {
+      c.status(500);
+      return c.json({ message: "Failed to create user" });
+    }
 
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);
     if (!token) {
       c.status(500);
-      return c.json("Failed to create token");
+      return c.json({ message: "Failed to create token" });
     }
 
-    return c.json({ mesaage: "User created Successfully", token: token });
+    return c.json({ message: "User created successfully", token });
   } catch (error) {
+    console.error(error); 
     c.status(500);
-    return c.json("Failed to create user");
+    return c.json({ message: "Failed to create user" });
   }
 });
 

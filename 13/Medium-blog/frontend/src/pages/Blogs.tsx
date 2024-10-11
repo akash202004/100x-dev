@@ -21,7 +21,7 @@ export const Blogs = () => {
       </header>
       {blogs.map((blog) => (
         <BlogCard
-          key={blog.id}
+          id={blog.id}
           authorName={blog.author?.username || "Unknown Author"} 
           title={blog.title}
           content={blog.content}

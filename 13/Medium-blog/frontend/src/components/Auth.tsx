@@ -44,22 +44,26 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
     setLoading(true);
 
     try {
+      let response;
       if (type === "signup") {
-        const response = await axios.post(`${apiUrl}/api/v1/user/signup`, {
+        response = await axios.post(`${apiUrl}/api/v1/user/signup`, {
           username: postInputs.username,
           email: postInputs.email,
           password: postInputs.password,
         });
         console.log("Signup Success:", response.data);
-        navigate("/blogs");
+        const token = response.data.token;
+        localStorage.setItem("token", token);
       } else if (type === "signin") {
-        const response = await axios.post(`${apiUrl}/api/v1/user/signin`, {
+        response = await axios.post(`${apiUrl}/api/v1/user/signin`, {
           email: postInputs.email,
           password: postInputs.password,
         });
         console.log("Signin Success:", response.data);
-        navigate("/blogs");
+        const token = response.data.token;
+        localStorage.setItem("token", token);
       }
+      navigate("/blogs");
     } catch (error) {
       toast.error("Error occurred during authentication");
     } finally {

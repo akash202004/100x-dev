@@ -18,7 +18,7 @@ export const useBlogs = () => {
   const apiUrl = import.meta.env.VITE_APP_API_URL;
 
   useEffect(() => {
-    let isMounted = true; 
+    let isMounted = true;
     setLoading(true);
 
     axios
@@ -28,7 +28,7 @@ export const useBlogs = () => {
         },
       })
       .then((response) => {
-        if (isMounted) { 
+        if (isMounted) {
           setBlogs(response.data.blogs);
           setLoading(false);
         }
@@ -43,10 +43,51 @@ export const useBlogs = () => {
     return () => {
       isMounted = false;
     };
-  }, [apiUrl]); 
+  }, [apiUrl]);
 
   return {
     blogs,
+    loading,
+    error,
+  };
+};
+
+export const singleBlog = (id: string) => {
+  const [blog, setBlog] = useState<Blog>();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const apiUrl = import.meta.env.VITE_APP_API_URL;
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+
+    axios
+      .get(`${apiUrl}/api/v1/blog/get/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (isMounted) {
+          setBlog(response.data.blog);
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        if (isMounted) {
+          setError(error.response?.data?.message || "Failed to fetch blogs");
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [apiUrl]);
+
+  return {
+    blog,
     loading,
     error,
   };

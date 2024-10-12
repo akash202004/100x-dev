@@ -42,7 +42,7 @@ export const BlogCard = ({
 
 export const Avatar = ({ name }: { name: string }) => {
   return (
-    <div className="flex items-center justify-center bg-gray-500 text-white rounded-full w-10 h-10 border-black border-2">
+    <div className="flex items-center justify-center bg-red-400 text-white rounded-full w-10 h-10 border-black border-2 hover:bg-red-600">
       <span className="text-lg font-bold">{name.charAt(0).toUpperCase()}</span>
     </div>
   );

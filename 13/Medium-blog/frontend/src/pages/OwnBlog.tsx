@@ -1,4 +1,5 @@
 import { Avatar } from "../components/BlogCard";
+import { Header } from "../components/Header";
 
 const mockBlogs = [
   {
@@ -21,10 +22,7 @@ const mockBlogs = [
 export const OwnBlog = () => {
   return (
     <div>
-      <header className="flex mb-5 items-center justify-between p-5 bg-gray-200 border-b-2 border-gray-500">
-        <h1 className="text-xl font-bold">Mediumm..</h1>
-        <Avatar name="A" />
-      </header>
+      <Header/>
       <div className="max-w-2xl mx-auto mt-10 p-5 border rounded bg-white shadow">
         <h1 className="text-2xl font-bold mb-5">My Blogs</h1>
         {mockBlogs.length === 0 ? (

@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { Avatar } from "../components/BlogCard";
+import { Header } from "../components/Header";
 
 export const CreateBlog = () => {
   const [title, setTitle] = useState("");
@@ -20,7 +21,7 @@ export const CreateBlog = () => {
 
   return (
     <div>
-      
+      <Header />
       <div className="max-w-md mx-auto mt-10 p-5 border rounded bg-white shadow">
         <h1 className="text-2xl font-bold mb-5">Create Blog</h1>
         <form onSubmit={handleSubmit}>

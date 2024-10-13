@@ -3,9 +3,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Header } from "../components/Header";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const CreateBlog = () => {
   const apiUrl = import.meta.env.VITE_APP_API_URL;
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,7 @@ export const CreateBlog = () => {
         toast.success("Blog created successfully!");
         setTitle("");
         setContent("");
+        navigate("/blogs");
       } else {
         throw new Error("Failed to create blog");
       }

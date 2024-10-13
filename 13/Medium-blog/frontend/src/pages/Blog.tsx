@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { singleBlog } from "../hooks";
 import { Avatar } from "../components/BlogCard";
 import { Header } from "../components/Header";
+import { BlogSkeleton } from "../components/BlogSkeleton";
 
 export const Blog = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +13,9 @@ export const Blog = () => {
   const { blog, loading, error } = singleBlog(id);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <BlogSkeleton/>
+    )
   }
 
   if (error) {

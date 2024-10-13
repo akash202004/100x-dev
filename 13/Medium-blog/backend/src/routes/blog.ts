@@ -182,3 +182,43 @@ blogRouter.get("/bulk", async (c) => {
     return c.json("Failed to fetch blog");
   }
 });
+
+// Fetch particular user's blogs
+blogRouter.get("/user/posts", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const authorId = c.get("authorId");
+
+    const blogs = await prisma.post.findMany({
+      where: {
+        authorId: authorId,
+      },
+      select: {
+        title: true,
+        content: true,
+        published: true,
+        id: true,
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
+    });
+
+    if (blogs.length === 0) {
+      return c.json({ message: "No blogs found for this user" });
+    }
+
+    return c.json({
+      message: "Blogs fetched successfully",
+      blogs: blogs,
+    });
+  } catch (error) {
+    c.status(500);
+    return c.json({ message: "Failed to fetch user blogs" });
+  }
+});

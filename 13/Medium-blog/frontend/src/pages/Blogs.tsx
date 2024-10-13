@@ -2,12 +2,17 @@ import { Link } from "react-router-dom";
 import { BlogCard } from "../components/BlogCard";
 import { useBlogs } from "../hooks";
 import { Header } from "../components/Header";
+import { BlogsSkeleton } from "../components/BlogsSkeleton";
 
 export const Blogs = () => {
   const { loading, blogs, error } = useBlogs();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <BlogsSkeleton />
+      </div>
+    );
   }
 
   if (error) {
@@ -16,7 +21,7 @@ export const Blogs = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <div className="mb-5 flex justify-end mr-5 space-x-4">
         <Link to="/create-blog">
           <button className="bg-blue-400 text-white px-4 py-2 font-semibold shadow-lg rounded border-black border-2 hover:bg-blue-600">

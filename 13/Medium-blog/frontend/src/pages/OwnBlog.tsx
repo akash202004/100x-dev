@@ -1,4 +1,3 @@
-import { Avatar } from "../components/BlogCard";
 import { Header } from "../components/Header";
 
 const mockBlogs = [

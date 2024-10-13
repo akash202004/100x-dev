@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { BlogCard } from "../components/BlogCard";
-import { Avatar } from "../components/BlogCard";
 import { useBlogs } from "../hooks";
 import { Header } from "../components/Header";
 

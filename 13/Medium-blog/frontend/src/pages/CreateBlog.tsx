@@ -11,12 +11,10 @@ export const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
     const newBlog = { title, content };
 
@@ -37,7 +35,6 @@ export const CreateBlog = () => {
       }
     } catch (error: any) {
       const errorMsg = error.response?.data?.message || "Failed to create blog";
-      setError(errorMsg);
       toast.error(errorMsg);
     } finally {
       setLoading(false);

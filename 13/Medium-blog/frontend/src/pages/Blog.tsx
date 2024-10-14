@@ -13,9 +13,7 @@ export const Blog = () => {
   const { blog, loading, error } = singleBlog(id);
 
   if (loading) {
-    return (
-      <BlogSkeleton/>
-    )
+    return <BlogSkeleton />;
   }
 
   if (error) {
@@ -28,9 +26,9 @@ export const Blog = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <div className="py-6 px-10 md:px-20 grid grid-cols-1 md:grid-cols-12 gap-10">
-        <div className="col-span-1 md:col-span-8">
+        <div className="col-span-1 md:col-span-8 pr-8 border-r-2 border-black">
           <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-4">
             {blog.title}
           </h1>

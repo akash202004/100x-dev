@@ -34,15 +34,20 @@ export const Blogs = () => {
           </button>
         </Link>
       </div>
-      {blogs.map((blog) => (
-        <BlogCard
-          id={blog.id}
-          authorName={blog.author?.username || "Unknown Author"}
-          title={blog.title}
-          content={blog.content}
-          published={blog.published}
-        />
-      ))}
+      {blogs.length === 0 ? (
+        <p className="text-center text-gray-600 mt-10">No blogs available at the moment.</p>
+      ) : (
+        blogs.map((blog) => (
+          <BlogCard
+            key={blog.id} // Added key for better React list rendering
+            id={blog.id}
+            authorName={blog.author?.username || "Unknown Author"}
+            title={blog.title}
+            content={blog.content}
+            published={blog.published}
+          />
+        ))
+      )}
     </div>
   );
 };

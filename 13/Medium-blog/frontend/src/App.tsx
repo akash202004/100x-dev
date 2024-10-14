@@ -7,6 +7,7 @@ import { Blogs } from "./pages/Blogs";
 import { Landing } from "./pages/Landing";
 import { CreateBlog } from "./pages/CreateBlog";
 import { OwnBlog } from "./pages/OwnBlog";
+import { EditBlog } from "./pages/EditBlog";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/create-blog" element={<CreateBlog />} />
           <Route path="/own-blog" element={<OwnBlog />} />
+          <Route path="/edit-blog/:id" element={<EditBlog />} />
         </Routes>
       </BrowserRouter>
     </>

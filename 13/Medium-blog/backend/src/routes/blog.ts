@@ -80,23 +80,32 @@ blogRouter.post("/", async (c) => {
   }
 });
 
-// Update a blog
-blogRouter.put("/", async (c) => {
+// update a blog
+blogRouter.patch("/:id", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
 
   try {
-    const body = await c.req.json();
-    const { success } = updateBlogInput.safeParse(body);
+    const { id } = c.req.param(); 
+    const body = await c.req.json(); 
+    
+    const { success, error } = updateBlogInput.safeParse({ id, ...body });
     if (!success) {
-      c.status(411);
-      return c.json("Invalid input");
+      const errors = error.errors.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      }));
+      
+      c.status(400);
+      return c.json({
+        message: "Invalid input",
+        errors: errors, 
+      });
     }
+
     const blog = await prisma.post.update({
-      where: {
-        id: body.id,
-      },
+      where: { id }, 
       data: {
         title: body.title,
         content: body.content,
@@ -105,12 +114,41 @@ blogRouter.put("/", async (c) => {
 
     return c.json({
       message: "Blog updated successfully",
+      blog,
+    });
+  } catch (error) {
+    console.error("Update blog error:", error);
+    c.status(500);
+    return c.json({
+      message: "Failed to update blog",
+    });
+  }
+});
+
+// delete a  blog
+blogRouter.delete("/:id", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const blog = await prisma.post.delete({
+      where: {
+        id: c.req.param("id"),
+      },
+    });
+    if (!blog) {
+      return c.json("Blog not found");
+    }
+
+    return c.json({
+      message: "Blog deleted successfully",
       blog: blog,
       id: blog.id,
     });
   } catch (error) {
     c.status(500);
-    return c.json("Failed to update blog");
+    return c.json("Failed to delete blog");
   }
 });
 

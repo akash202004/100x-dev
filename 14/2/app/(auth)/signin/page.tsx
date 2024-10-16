@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import axios from "axios";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,9 @@ const SignIn = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Sign In Data:", formData);
-    // Handle sign in logic (e.g., API call)
+    axios.post("http://localhost:3000/api/signin", formData).then((res) => {
+      console.log(res.data);
+    });
   };
 
   return (

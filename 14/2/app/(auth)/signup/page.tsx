@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { useState } from "react";
 
 const SignUp = () => {
@@ -14,8 +15,9 @@ const SignUp = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Sign Up Data:", formData);
-    // Handle sign up logic (e.g., API call)
+    axios.post("http://localhost:3000/api/user", formData).then((res) => {
+      console.log(res.data);
+    });
   };
 
   return (

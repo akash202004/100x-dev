@@ -75,6 +75,12 @@ docker run -p 3000:3000 -e DATABASE_URL="db_url" image_name
 docker kill <conatiner_id>
 ```
 
+- docker rmi to delete image
+
+```
+docker rmi <repository_name>
+```
+
 - docker exec : to execute or go deeper into that image
 
 1. Running an Interactive Shell
@@ -97,6 +103,8 @@ docker exec <container_name_or_id> ls
 
 - Basically if a mongo we craete and put some data and kill the data inside will be deleted so we make a volume and connect with the mongo server so that the data will store in that volume. Then when we kill a conatiner and then again run it with that volume which stores that data your data will comback or fetched.
 
+![Volume](./volume.webp)
+
 ```
 docker volume create volume_database
 docker run -d -v volume_database:/data/db -p 27017:27017 mongo
@@ -106,6 +114,8 @@ docker run -d -v volume_database:/data/db -p 27017:27017 mongo
 
 - If a node.js project we run it in conatiner then it cant connect to a database as it is isolated so for that we user network to connect and enable to talk to with conatiners like a mongo container which is also run in a conatiner.
 - In Docker, a network is a powerful feature that allows containers to communicate with each other and with the outside world.
+
+![Network](./nrmal_image.webp)
 
 ## types of network
 
@@ -154,3 +164,32 @@ DATABASE_URL = "mongodb://<same_name_which_you_put_in_your_mongo_conatiner>:2701
 
 EX: docker run -d -v volume_database:/data/db <--name mongo> --network my_custom_network -p 27017:27017 mongo
 Then url mongodb://mongo:27017/myDatabase
+
+# docker repository
+
+- like mongo has a image deploy on docker hub we make a image and deploy it to docker hub so that everyone can pull that image from a single command
+- First we make a repository which start with your username/repository_name
+- then make a project and run docker build with the same name you give to your repository EX: akashlaha/test_rep
+- and run docker push username/repository_name:tagname, tagname determine your version if if make any changes and you want to push in that same repository we give some tagname EX: docker psuh username/repository_name:v1 so v1 si tagname
+
+# docker compose
+
+- So if you have to run a a project with node.js and mongodb connection with a network and mongodb has a vloume we have to write many commnad to actually run the app with docker to make it easy for begineer we use a docker compose file to run everything in a single command.
+
+![compose](./compose.png)
+
+![compose](./compose.webp)
+
+[ComposeFile](./docker-compose.yaml)
+
+Start the compose
+
+```
+docker-compose up
+```
+
+Stop everything (including volumes)
+
+```
+docker-compose down --volumes
+```

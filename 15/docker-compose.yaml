@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  Mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  Nodejs:
+    image: backend
+    # build: . if you want docker to build the image from the Dockerfile
+    container_name: backend_app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - Mongodb
+    environment:
+      MONGO_URL: "mongodb://mongodb:27017/test"
+
+volumes:
+  mongodb_data:

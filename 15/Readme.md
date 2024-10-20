@@ -55,7 +55,7 @@ mongodb://localhost:57017
 
 # how to make a docker file and run docker build command
 
-![image](./dockerfile_image.webp)
+![image](./images/dockerfile_image.webp)
 
 ```
 docker build -t <name_that_upload_in_docker_hub>
@@ -103,7 +103,7 @@ docker exec <container_name_or_id> ls
 
 - Basically if a mongo we craete and put some data and kill the data inside will be deleted so we make a volume and connect with the mongo server so that the data will store in that volume. Then when we kill a conatiner and then again run it with that volume which stores that data your data will comback or fetched.
 
-![Volume](./volume.webp)
+![Volume](./images/volume.webp)
 
 ```
 docker volume create volume_database
@@ -115,7 +115,7 @@ docker run -d -v volume_database:/data/db -p 27017:27017 mongo
 - If a node.js project we run it in conatiner then it cant connect to a database as it is isolated so for that we user network to connect and enable to talk to with conatiners like a mongo container which is also run in a conatiner.
 - In Docker, a network is a powerful feature that allows containers to communicate with each other and with the outside world.
 
-![Network](./nrmal_image.webp)
+![Network](./images/nrmal_image.webp)
 
 ## types of network
 
@@ -176,9 +176,9 @@ Then url mongodb://mongo:27017/myDatabase
 
 - So if you have to run a a project with node.js and mongodb connection with a network and mongodb has a vloume we have to write many commnad to actually run the app with docker to make it easy for begineer we use a docker compose file to run everything in a single command.
 
-![compose](./compose.png)
+![compose](./images/compose.png)
 
-![compose](./compose.webp)
+![compose](./images/compose.webp)
 
 [ComposeFile](./docker-compose.yaml)
 
@@ -192,4 +192,12 @@ Stop everything (including volumes)
 
 ```
 docker-compose down --volumes
+```
+
+# Bind Mount
+
+- Basically if i have a next.js project when i run and i make changes in that app it instantly reflect to the lcoal server its called hot reload but when i run a app in docker container and i make changes with bash terminal it reflect in docker if we run the docker but if you change anything in vs code it cant reflect to docker conatiner as we have to build the conatiner again and again so that we can resolve with it.
+
+```
+docker run -p 3000:3000 -v ./app:/nextapp/app test_repo
 ```

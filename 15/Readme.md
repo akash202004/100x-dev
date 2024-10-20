@@ -101,3 +101,56 @@ docker exec <container_name_or_id> ls
 docker volume create volume_database
 docker run -d -v volume_database:/data/db -p 27017:27017 mongo
 ```
+
+# docker network
+
+- If a node.js project we run it in conatiner then it cant connect to a database as it is isolated so for that we user network to connect and enable to talk to with conatiners like a mongo container which is also run in a conatiner.
+- In Docker, a network is a powerful feature that allows containers to communicate with each other and with the outside world.
+
+## types of network
+
+- Bridge: The default network driver for containers. When you run a container without specifying a network, it's attached to a bridge network. It provides a private internal network on the host machine, and containers on the same bridge network can communicate with each other.
+- Host: Removes network isolation between the container and the Docker host, and uses the host's networking directly. This is useful for services that need to handle lots of traffic or need to expose many ports.
+
+# process to connect to conatiner with network
+
+- Clone the repo - https://github.com/100xdevs-cohort-2/week-15-live-2.2
+
+- Build the image
+
+```
+docker build -t image_tag .
+```
+
+- Create a network
+
+```
+docker network create my_custom_network
+```
+
+- Start the backend process with the network attached to it
+
+```
+docker run -d -p 3000:3000 --name backend --network my_custom_network image_tag
+```
+
+- Start mongo on the same network
+
+```
+docker run -d -v volume_database:/data/db --name mongo --network my_custom_network -p 27017:27017 mongo
+```
+
+- Check the logs to ensure the db connection is successful
+
+```
+docker logs <container_id>
+```
+
+- The url which we put in our node.js backend project is
+
+```
+DATABASE_URL = "mongodb://<same_name_which_you_put_in_your_mongo_conatiner>:27017/myDatabase"
+```
+
+EX: docker run -d -v volume_database:/data/db <--name mongo> --network my_custom_network -p 27017:27017 mongo
+Then url mongodb://mongo:27017/myDatabase

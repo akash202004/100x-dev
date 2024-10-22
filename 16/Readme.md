@@ -19,3 +19,30 @@
 - Caching: TurboRepo caches the outputs of tasks, so if you run a task and then run it again without changing any of the inputs (source files, dependencies, configuration), TurboRepo can skip the actual execution and provide the output from the cache. This can significantly speed up build times, especially in continuous integration environments.
 - Parallelization: It can run independent tasks in parallel, making efficient use of your machine's resources. This reduces the overall time needed to complete all tasks in your project.
 - Dependency Graph Awareness: TurboRepo understands the dependency graph of your monorepo. This means it knows which packages depend on each other and can ensure tasks are run in the correct order.
+
+# Configuring tasks
+
+- Turborepo will always run tasks in the order described in your turbo.json configuration and Package Graph, parallelizing work whenever possible to ensure everything runs as fast as possible. This is faster than running tasks one at a time, and it's a part of what makes Turborepo so fast.
+
+![before_Turbo_Repo](./images/running.avif)
+
+![after_Turbo_Repo](./images/adv.avif)
+
+# Initialize a TurboRepo
+
+```
+npx create-turbo@latest
+```
+
+# Explore the folder structure
+
+- There are 5 modules in our project
+- End user apps (websites/core backend)
+  - apps/web - A Next.js website
+  - apps/docs - A Docs website that has all the documentation related to your project
+- Helper packages
+  - packages/ui - UI packages
+  - packages/typescript-config - Shareable TS configuration
+  - packages/eslint-config - Shareable ESLine configuration
+
+![after_Turbo_Repo](./images/sharing.png)

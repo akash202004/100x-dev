@@ -46,3 +46,5 @@ npx create-turbo@latest
   - packages/eslint-config - Shareable ESLine configuration
 
 ![after_Turbo_Repo](./images/sharing.png)
+
+![after_Turbo_Repo](./images/overall.png)

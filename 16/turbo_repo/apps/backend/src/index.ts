@@ -1,5 +1,5 @@
 import express from "express";
-import { BACKEND } from "@repo/common/config"
+import { BACKEND_URL } from "@repo/common/config";
 
 const app = express();
 

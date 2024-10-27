@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+const path = require('path');
 
-const nextConfig: NextConfig = {
-  /* config options here */
+module.exports = {
+  webpack: (config:any) => {
+    config.resolve.alias['@'] = path.resolve(__dirname).replace(/\\/g, '/');
+    return config;
+  },
 };
-
-export default nextConfig;

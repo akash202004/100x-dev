@@ -242,3 +242,27 @@ docker start <container_name>
 - The Docker daemon receives the command from the client and manages Docker objects, such as images, containers, networks, and volumes. The Docker client and daemon can either run on the same system, or you can connect a Docker client to a remote Docker daemon. They can communicate using a REST API, over UNIX sockets or a network interface.
 
 ![Docker](./images/dcker.png)
+
+# postgress db view
+
+- Run a postgres sql db locally the connect it with prisma or anything to put some data in it then.
+
+```
+docker exec -it <postgres_url> /bin/bash
+```
+
+```
+psql -U postgres
+```
+
+```
+\dt;
+```
+
+- to exit
+
+```
+\q
+```
+
+- After that you can run sql command to interact with the database put, update, delete, create data accordingly.

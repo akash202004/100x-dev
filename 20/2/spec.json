@@ -1,0 +1,123 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "My API"
+    },
+    "components": {
+      "schemas": {
+  
+      },
+      "parameters": {
+  
+      }
+    },
+    "paths": {
+      "/user/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10,
+                "example": "123"
+              },
+              "required": true,
+              "name": "id",
+              "in": "path"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get User by ID",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "example": "John Doe"
+                      },
+                      "age": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "example": 25
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "example": "123"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "age",
+                      "id"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "parameters": [
+            {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10,
+                "example": "123"
+              },
+              "required": true,
+              "name": "id",
+              "in": "path"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get User by ID",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "example": "John Doe"
+                      },
+                      "age": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "example": 25
+                      },
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "example": "123"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "age",
+                      "id"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }

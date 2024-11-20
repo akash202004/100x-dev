@@ -35,7 +35,7 @@
 
   ![img](./one.webp)
 
-### steps to create an EC2 server
+### Steps to create an EC2 server
 
 1. Click on Launch a new instance
 
@@ -64,3 +64,19 @@
 7. select that from where request will be comming http/https
 
    ![img](./nine.webp)
+
+### SSH into server
+
+1. ssh into machine
+
+```
+ssh -i kirat-class.pem ubuntu@ec2-65-0-180-32.ap-south-1.compute.amazonaws.com
+```
+
+2. Exception case ( Give ssh key permissions )
+
+   `IF error comes for some skeyecurity purpose of that file we get from aws key pair then run this command then run again that above code ^^`
+
+```
+chmod 700 kirat-class.pem
+```

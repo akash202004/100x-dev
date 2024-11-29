@@ -80,3 +80,33 @@ ssh -i kirat-class.pem ubuntu@ec2-65-0-180-32.ap-south-1.compute.amazonaws.com
 ```
 chmod 700 kirat-class.pem
 ```
+
+3. Git clone
+
+```
+git clone https://github.com/hkirat/sum-server
+```
+
+`If your aws machine shows you the following error, your aws machine doesn’t have access to the internet
+Solution - https://www.tecmint.com/resolve-temporary-failure-in-name-resolution/`
+
+![img](./ten.webp)
+
+4. Install Node.js
+
+```
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
+```
+
+5. Install all dependencies
+
+```
+cd sum-server
+npm install
+```
+
+6. Start backend
+
+```
+node index.js
+```

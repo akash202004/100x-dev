@@ -110,3 +110,30 @@ npm install
 ```
 node index.js
 ```
+
+### Try hitting the server
+
+- You have a ip/DNS that you can hit to access your ec2 server
+  ![img](./eleven.webp)
+
+- Try visiting your domain
+
+```
+your_domain:3000
+```
+
+`Notice you cant visit the website`
+
+### process to solve that
+
+- Security group
+  ![](./twelvw.webp)
+
+- You can either open port 8080, or process on port 80
+  ![](./thirteen.webp)
+
+  ![](./forteen.webp)
+
+```
+http://your_domain:8080
+```

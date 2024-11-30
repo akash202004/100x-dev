@@ -137,3 +137,103 @@ your_domain:3000
 ```
 http://your_domain:8080
 ```
+
+### What is Nginx?
+
+**Nginx** (pronounced "engine-x") is a powerful web server software that can act as:
+
+![](./1.webp)
+
+1. **Reverse Proxy**:
+
+   - Sits between client requests and your application server
+   - Can distribute incoming traffic across multiple servers (load balancing)
+   - Handles SSL/TLS termination for HTTPS connections
+
+2. **Web Server**:
+
+   - Serves static files directly (images, CSS, JavaScript)
+   - More efficient than having your Node.js application handle static content
+   - Can compress responses to reduce bandwidth
+
+3. **Key Benefits**:
+
+   - **Performance**: Highly efficient at handling concurrent connections
+   - **Security**: Adds an extra layer of security by not exposing your application server directly
+   - **Port Management**: Can route traffic from standard ports (80/443) to your application ports (3000, 8080, etc.)
+
+4. **Common Usage with Node.js**:
+
+```nginx
+server {
+    listen 80;
+    server_name your_domain.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+5. **Why Use Nginx?**:
+
+   - Industry standard for production deployments
+   - Better performance than exposing Node.js directly
+   - Handles multiple applications on different ports
+   - Manages SSL certificates and HTTPS traffic efficiently
+
+6. **Installing nginx**
+
+```nginx
+sudo apt update
+sudo apt install nginx
+```
+
+- This should start a nginx server on port 80
+- Try visiting the website
+
+![](./2.webp)
+
+7. **Create a reverse Proxy**
+
+```nginx
+sudo rm sudo vi /etc/nginx/nginx.conf
+sudo vi /etc/nginx/nginx.conf
+events {
+    # Event directives...
+}
+
+http {
+	server {
+    listen 80;
+    server_name be1.100xdevs.com;
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+	}
+}
+
+sudo nginx -s reload
+```
+
+8. **Start the Backend server**
+
+```nginx
+node index.js
+```
+
+- Visit the website
+- https://be1.100xdevs.com/
+
+![](./3.webp)

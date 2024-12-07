@@ -237,3 +237,19 @@ node index.js
 - https://be1.100xdevs.com/
 
 ![](./3.webp)
+
+9. **To start the process in background**
+
+```nginx
+pm2 node index.js
+```
+
+pm2: process manager 2
+
+- It is especially useful for production environments because it ensures your app stays online, manages restarts, and provides features like logging and process monitoring.
+
+### how to apply https to your doamin name
+
+`https://certbot.eff.org/`
+
+- use cert bot command to easily generate a certificate that integrated with your nginx and you application should be running in a https:// in browser. There are many paid oraginisation to get the ssl certificate but it is a free one.

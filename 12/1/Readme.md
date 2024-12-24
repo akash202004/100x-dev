@@ -48,3 +48,43 @@
 
 - For fronted, mp4 files, images, `object store` + `CDNs` are a better approcach
 - You can’t use the same for backends, since every request returns a different response. Caching doesn’t make any sense there.
+
+### Creating a object store in S3
+
+- In AWS, S3 is their object store offering.
+  You can create a bucket in there. A bucket represents a logical place where you store all the files of a certain project.
+
+![one](./three.webp)
+
+![one](./four.webp)
+
+![one](./five.webp)
+
+### Upload your file bundle in S3 (file & folder inside dist folder)
+
+![one](./six.webp)
+
+### Try accessing the website
+
+- You might be tempted to open your S3 bucket at this point, but don’t
+  Your S3 bucket should be blocked by default, and you should allow cloudfront (CDN) to access it.
+
+![one](./seven.webp)
+
+### Connecting a cloudfront
+
+1. Create a Cloudfront distribution
+
+- Go to cloudfront and create a new distribution. A distribution here means you’re creating a place from where content can be distributed.
+
+![one](./eight.webp)
+
+2. Select your S3 bucket as the source
+
+![one](./nine.webp)
+
+`💡 Origin Access Control (OAC) is a feature in Cloudfront, which allows you to restrict direct access to the content stored in your origin, such as an Amazon S3 bucket or a web server, ensuring that users can only access the content through the CDN distribution and not by directly accessing the origin URL`
+
+- By the end of this, you should have a working cloudfront URL.
+
+![one](./ten.webp)

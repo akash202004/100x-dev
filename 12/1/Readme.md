@@ -11,7 +11,7 @@
 1. **Navigate to your project directory.**
 2. **Build your project using the following command:**
 
-   ```nginx
+   ```bash
    npm run build
    ```
 
@@ -19,35 +19,56 @@
 
    Install the `serve` package globally:
 
-   ```nginx
+   ```bash
    npm i -g serve
    ```
 
    Serve your project:
 
-   ```nginx
+   ```bash
    serve
    ```
 
    At this point, you have basic HTML/CSS/JS code that you can deploy on the internet. While you might be tempted to host this on an EC2 instance, using S3 and CloudFront is a more efficient approach.
 
-### What are CDNs ?
+### Understanding CDNs (Content Delivery Networks)
 
-- A CDN stands for Content Delivery Network.
-  As the name suggests, it’s an optimal way for you to deliver content (mp4 files, jpgs and even HTML/CSS/JS files) to your users.
+A CDN is a distributed network of servers designed to deliver content to users more efficiently. Here's why CDNs are superior to traditional hosting:
 
-- It is better than serving it from a VM/EC2 instances because of a few reasons -
+#### Comparison: Traditional vs CDN Approach
 
-1. **EC2 machine apprach**
+1. **Traditional EC2 Approach:**
+   ![EC2 Approach](./one.webp)
+   - Single point of delivery
+   - Higher latency for distant users
+   - Greater server load
+   - No built-in caching
 
-   ![one](./one.webp)
+2. **CDN Approach:**
+   ![CDN Approach](./two.webp)
+   - Distributed network of edge locations
+   - Content served from nearest location
+   - Automatic scaling and load balancing
+   - Built-in caching
 
-2. **CDN approach**
+#### Why Use Object Storage + CDN for Frontend?
 
-   ![one](./two.webp)
+1. **Perfect for Static Content:**
+   - Ideal for HTML, CSS, JS files
+   - Great for images, videos, and other media
+   - Consistent content that can be cached
 
-- For fronted, mp4 files, images, `object store` + `CDNs` are a better approcach
-- You can’t use the same for backends, since every request returns a different response. Caching doesn’t make any sense there.
+2. **Benefits:**
+   - Faster load times
+   - Lower latency
+   - Reduced origin server load
+   - Better scalability
+   - Cost-effective
+
+3. **Important Note:**
+   - This approach is optimal for frontend assets and static content
+   - Not suitable for backend services that require dynamic responses
+   - Backend services should still use compute instances (like EC2) for processing requests
 
 ### Creating a object store in S3
 

@@ -36,7 +36,7 @@ A DDoS attack involves overwhelming a site with a flood of traffic from multiple
 
 ![image](./image/2.webp)
 
-### DDoS
+### DDoS (Distributed Denial of Service)
 
 - Your server is still vulnerable to DDoS
 
@@ -44,10 +44,33 @@ A DDoS attack involves overwhelming a site with a flood of traffic from multiple
 
 - Why do attackers to DDoS -
 
-  1. To charge ransom because the service remains down until DDoS is lifted 
+  1. To charge ransom because the service remains down until DDoS is lifted
   2. On sneaker drop events/NFT mints where the faster the request reaches the server the better
 
 - How can you save your reset password endpoint?
 
   1. You can implement logic that only 3 resets are allowed per email sent out
   2. You can implement captcha logic
+
+### Cloudflare Services
+
+- Cloudflare let your domain proxy means it let your all request to your domain first reach to cloudflare from cloudflare it reached to your website that help to prevent DDos as it blocked many bot farm requests.
+
+![image](./image/4.webp)
+
+![image](./image/5.webp)
+
+`💡
+This is usually more than good enough, but if you’d like to dive further, you can add IP based rate limits, override DDoS in the security section of cloudflare
+AWS/GCP also provide you with the same`
+
+### Captchas
+
+![image](./image/6.webp)
+
+- Captchas are a great-sh solution to making sure the request was sent by a human and not by a machine
+  There are various freely available captchas, Cloudflare Turnstile is one of them
+
+![image](./image/7.webp)
+
+![image](<./image/Screenshot%20(43).png>)

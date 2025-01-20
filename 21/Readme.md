@@ -19,3 +19,35 @@ In high-traffic scenarios, like ticket sales for a popular event, rate limiting 
 ### DDoS Protection
 
 A DDoS attack involves overwhelming a site with a flood of traffic from multiple sources, which can make the website unavailable. DDoS protection mechanisms detect unusual traffic flows and can filter out malicious traffic, helping to keep the service operational despite the attack.
+
+### Exploiting the backned
+
+![image](./image/1.webp)
+
+### Exploiting one in production
+
+- Try resetting password on https://harkirat.classx.co.in
+  1. Go to the website
+  2. Put in a random users email
+  3. Send OTP
+  4. Try putting a random OTP
+
+`as it already rate limited the most secure endpoint so we can send lots of request it block your ip`
+
+![image](./image/2.webp)
+
+### DDoS
+
+- Your server is still vulnerable to DDoS
+
+![image](./image/3.webp)
+
+- Why do attackers to DDoS -
+
+  1. To charge ransom because the service remains down until DDoS is lifted 
+  2. On sneaker drop events/NFT mints where the faster the request reaches the server the better
+
+- How can you save your reset password endpoint?
+
+  1. You can implement logic that only 3 resets are allowed per email sent out
+  2. You can implement captcha logic

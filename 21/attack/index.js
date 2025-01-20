@@ -39,9 +39,10 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 99999; i <= 999999; i += 100) {
             const p = [];
-            console.log(i);
+            // console.log(i);
             for (let j = 0; j < 100; j++) {
                 p.push(sendRequest((i + j).toString()));
+                console.log(i + j);
             }
             yield Promise.all(p);
         }

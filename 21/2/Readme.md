@@ -28,7 +28,20 @@
 3. Storing a list of 10 most latest chats in memory for a chat application
 
 ### Stickiness
+
 - It means 100 player playing bgmi should connect to the same server means it stick to that server only, that should help stateful for real-time updates
 - Making sure that the user who is interested in a specific room, gets connected to a specific server.
 
 ![image](./images/two.webp)
+
+# state in JS Process
+
+- How we can store state in a js process
+
+![image](./images/three.webp)
+
+- The state might being used by multiple files, not just one, so the following approach might not work
+
+![image](./images/four.webp)
+
+# classes and singleton pattern

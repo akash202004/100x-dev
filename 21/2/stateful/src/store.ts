@@ -5,9 +5,11 @@ interface Game {
   moves: string[];
 }
 
+// bad approach
 export const games: Game[] = [];
 
-export const gameManager = class {
+// slightly better approach
+export const GameManager = class {
   games: Game[] = [];
   constructor() {
     this.games = games;
@@ -34,4 +36,10 @@ export const gameManager = class {
     this.games = this.games.filter((game) => game.id !== gameId);
     console.log(`Game removed: ${gameId}`);
   }
+
+  log(){
+    console.log(this.games);
+  }
 };
+
+export const gameManager = new GameManager(); 

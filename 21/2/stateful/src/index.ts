@@ -1,5 +1,5 @@
 import { logger } from "./logger";
-import { gameManager, games } from "./store";
+import { GameManager, games } from "./store";
 
 logger();
 
@@ -15,5 +15,5 @@ logger();
 
 // slightly better approach
 setInterval(() => {
-  gameManager.addGame(Math.random().toString());
+  GameManager.getInstance().addGame(Math.random().toString());
 }, 5000);

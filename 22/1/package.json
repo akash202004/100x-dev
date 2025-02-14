@@ -1,0 +1,17 @@
+{
+  "name": "1",
+  "version": "1.0.0",
+  "description": "- Cluster module and horizontal scaling ✅\r     - Capacity Estimation, ASGs and Vertical scaling ✅\r     - Load balancers ✅",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "os": "^0.1.2"
+  }
+}

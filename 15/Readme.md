@@ -16,9 +16,8 @@
 3. docker run
 
    - Lets you start a container
-     -p - let’s you create a port mapping
-     -d.
-     - Let’s you run it in detatched mode
+   - -p let’s you create a port mapping
+   - -d Let’s you run it in detatched mode
 
 4. docker build
 

@@ -5,12 +5,6 @@
     - ASGs and Vertical scaling ✅
     - Load balancers ✅
 
-### Database
-
-    - Indexing ✅
-    - Normalization
-    - Sharding
-
 ## Horizontal Scaling
 
 - Horizontal scaling, also known as scaling out, involves increasing the number of instances or servers to handle more load or traffic. This approach is essential for building scalable and resilient systems that can adapt to varying workloads. In this section, we will elaborate on the key concepts and mechanisms involved in horizontal scaling, particularly in the context of AWS (Amazon Web Services)
@@ -41,4 +35,46 @@
 - Create an AMI with your machine
 - Create security group
 - Launch template
+
   - Ref for User data - `https://stackoverflow.com/questions/15904095/how-to-check-whether-my-user-data-passing-to-ec2-instance-is-working`
+
+- starup code for an instance called user-data in aws
+
+```
+#!/bin/bash
+export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v22.0.0/bin/
+echo "hi there before"
+echo "hi there after"
+npm install -g pm2
+cd /home/ubuntu/week-22
+pm2 start index.js
+pm2 save
+pm2 startup
+```
+
+![img](./images/three.webp)
+
+- ASG
+  - Callout on availability zones - ASGs try to balance instances in each zone
+
+![img](./images/four.webp)
+
+- Load balancer
+  - Add an HTTPS Listener from your domain, request a certificate from ACM
+- Target group - Attach the target group to the ASG
+
+## Autoscaling part
+
+- You can create an dynamic scaling policy
+
+![img](./images/five.webp)
+
+- Try playing with the Min and max on the ASG
+
+![img](./images/six.webp)
+
+## The flow to make the whole process
+
+- First part
+
+![img](./images/seven.png)

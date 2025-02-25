@@ -55,9 +55,37 @@ pm2 startup
 ![img](./images/three.webp)
 
 - ASG
+
   - Callout on availability zones - ASGs try to balance instances in each zone
 
-![img](./images/four.webp)
+- Attact a launch template
+  ![img](./images/eight.png)
+
+- instance type means machine you want
+  ![img](./images/nine.png)
+
+- on demand is expensive and good and spot is taking another machine as it can go down but ondemand is not going down so it is expensive
+  ![img](./images/ten.png)
+
+- in which area you need all of your instances if you select 2 diff areas it will balance the laod in 2 area you selected.
+  ![img](./images/eleven.png)
+
+- create a load balancer
+  ![img](./images/twelve.png)
+
+- application base load balancer for HTTP, HTTPS req.
+  ![img](./images/thirteen.png)
+
+- Internet-Facing Load Balancer: Routes traffic from the internet to public-facing applications in a public subnet.
+- Internal Load Balancer: Routes traffic within a VPC to private applications in a private subnet.
+  ![img](./images/forteen.png)
+
+- target group
+  ![img](./images/fifteen.png)
+  ![img](./images/seventeen.png)
+
+- Scaling metrices how many max-min machine you need
+  ![img](./images/sixteen.png)
 
 - Load balancer
   - Add an HTTPS Listener from your domain, request a certificate from ACM
@@ -73,8 +101,98 @@ pm2 startup
 
 ![img](./images/six.webp)
 
+## Try killing servers
+
+- Try to stop a few servers in the ASG. Notice they spin back up to arrive at the desired amount.
+
+## Simulate a scale up
+
+- Try running an infinite for loop on the instance to see if a scale up happens
+
+```
+let c = 0;
+
+while (1) {
+	c++;
+}
+```
+
+![img](./images/nineteen.webp)
+
+- You’ll notice the desired capacity goes up by one in some time
+
+![img](./images/twenty.webp)
+
+- Try turning the infinite loop off and notice a scale down happens
+
+## Scaling via a Node.js app
+
+- Create a new user with permissions to AutoscalingFullAccess
+
+![img](./images/21.webp)
+
+![img](./images/22.webp)
+
+```
+import AWS from 'aws-sdk';
+
+AWS.config.update({
+  region: 'ap-south-1',
+  accessKeyId: 'YOUR_ACCESS_KEY',
+  secretAccessKey: 'YOUR_ACCESS_SECRET'
+});
+
+// Create an Auto Scaling client
+const autoscaling = new AWS.AutoScaling();
+
+// Function to update the desired capacity of an Auto Scaling group
+const updateDesiredCapacity = (autoScalingGroupName: string, desiredCapacity: number) => {
+  const params = {
+    AutoScalingGroupName: autoScalingGroupName,
+    DesiredCapacity: desiredCapacity
+  };
+
+  autoscaling.setDesiredCapacity(params, (err, data) => {
+    if (err) {
+      console.log("Error", err);
+    } else {
+      console.log("Success", data);
+    }
+  });
+};
+
+// Example usage
+const groupName = 'node-app-1'; // Set your Auto Scaling group name
+const newDesiredCapacity = 3; // Set the new desired capacity
+
+// Call the function
+updateDesiredCapacity(groupName, newDesiredCapacity);
+```
+
+## Cleanup
+
+- Please delete all things one by one
+- ASG
+- Target group
+- Load balancer
+- Launch template
+- Image
+- Instance that the image was created from
+
+`Try using elastic beanstalk. Gives you the same benefits w/o the developer having to create all of these`
+
+## How to attact your domain with Load balancer
+
+![img](./images/25.png)
+
+![img](./images/26.png)
+
 ## The flow to make the whole process
 
 - First part
 
 ![img](./images/seven.png)
+
+![img](./images/23.png)
+
+![img](./images/24.png)

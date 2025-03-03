@@ -30,7 +30,7 @@ async function sendBulkRequests() {
             console.error(`❌ Failed: ${email}, Error: ${error.message}`);
         }
         // Small delay to avoid overwhelming the server
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        // await new Promise((resolve) => setTimeout(resolve, 200));
     }
 }
 sendBulkRequests();

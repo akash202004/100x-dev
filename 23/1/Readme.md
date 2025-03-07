@@ -85,3 +85,95 @@ a=candidate:4 1 UDP 41819902 10.1.1.1 3478 typ relay raddr 93.184.216.34 rport 4
 - A **TURN server** is needed if users are behind a restrictive network.
 
 ![](./images/six.png)
+
+# WebRTC Connection Guide
+
+## Connecting the Two Sides
+
+The steps to create a WebRTC connection between two sides include:
+
+1. **Browser 1** creates an `RTCPeerConnection`.
+2. **Browser 1** creates an offer.
+3. **Browser 1** sets the local description to the offer.
+4. **Browser 1** sends the offer to the other side through the signaling server.
+5. **Browser 2** receives the offer from the signaling server.
+6. **Browser 2** sets the remote description to the offer.
+7. **Browser 2** creates an answer.
+8. **Browser 2** sets the local description to be the answer.
+9. **Browser 2** sends the answer to the other side through the signaling server.
+10. **Browser 1** receives the answer and sets the remote description.
+
+This establishes the **peer-to-peer (P2P) connection** between the two parties.
+
+## Sending Media
+
+To actually send media, we need to:
+
+1. Ask for **camera/microphone permissions**.
+2. Get the **audio and video streams**.
+3. Call `addTrack` on the `RTCPeerConnection`.
+4. This triggers an `onTrack` callback on the other side, allowing media to be received.
+
+## WebRTC Stats
+
+You can look at various stats and SDP logs in `about:webrtc-internals`.
+Often, you may ask users to dump stats from here for better debugging.
+
+## Using Libraries for P2P
+
+As you can see, there are a lot of things to understand in order to build a simple app that sends video from one side to another.
+
+There are libraries that simplify this process by hiding much of the complexity of the `RTCPeerConnection` object from you. One such library is **PeerJS**:
+
+🔗 [PeerJS - Simplified WebRTC](https://peerjs.com/)
+
+## Implementation
+
+We will implement the WebRTC connection using:
+
+### **Signaling Server (Node.js)**
+The signaling server is responsible for exchanging connection metadata between peers. It will be a **WebSocket server** that supports three types of messages:
+
+- `createOffer`
+- `createAnswer`
+- `addIceCandidate`
+
+### **Frontend (React + PeerConnectionObject)**
+The frontend will use **React** along with the WebRTC `RTCPeerConnection` API to establish the connection and handle media streaming.
+
+## Reference
+We are building a slightly complex version of this example: [JSFiddle WebRTC Demo](https://jsfiddle.net/rainzhao/3L9sfsvf/).
+
+# WebRTC Architectures
+
+There are two other popular architectures for implementing WebRTC:
+
+- **SFU** (Selective Forwarding Unit)
+- **MCU** (Multipoint Control Unit)
+
+## Problems with P2P
+
+Peer-to-peer (P2P) connections work well for small groups, but they have scalability issues:
+
+- Doesn’t scale well beyond 3-4 people in the same call.
+
+## SFU (Selective Forwarding Unit)
+
+SFU stands for **Selective Forwarding Unit**. It acts as a central media server that forwards packets between users without processing or mixing the media.
+
+![SFU Architecture](./images/sfu.webp)
+
+### Popular Open Source SFUs:
+
+- [mediasoup](https://github.com/versatica/mediasoup)
+- [Pion WebRTC](https://github.com/pion/webrtc) (not exactly an SFU, but can be used to build one)
+
+## MCU (Multipoint Control Unit)
+
+MCU **mixes** audio and video streams together on the server before forwarding them to participants. This process requires:
+
+- Decoding video/audio (using tools like `ffmpeg`)
+- Mixing media (creating a video canvas and a single audio stream)
+- Sending the merged audio/video stream to all participants
+
+![MCU Architecture](./images/mcu.webp)

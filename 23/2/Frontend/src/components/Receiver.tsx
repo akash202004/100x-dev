@@ -11,7 +11,7 @@ const Receiver = () => {
       const message = JSON.parse(event.data);
       if (message.type === "createOffer") {
         const pc = new RTCPeerConnection();
-        pc.setRemoteDescription(message.sdp);
+        await pc.setRemoteDescription(message.sdp);
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         socket?.send(
@@ -19,7 +19,7 @@ const Receiver = () => {
         );
       }
     };
-  });
+  }, []);
 
   return <div>Receiver</div>;
 };

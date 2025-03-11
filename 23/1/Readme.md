@@ -105,6 +105,10 @@ The steps to create a WebRTC connection between two sides include:
 
 This establishes the **peer-to-peer (P2P) connection** between the two parties.
 
+![total Connection](./images/a.png)
+
+![total Connection](./images/bb.png)
+
 ## Sending Media
 
 To actually send media, we need to:

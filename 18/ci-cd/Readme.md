@@ -235,3 +235,120 @@ Ensure the following secrets are added to your repository:
 💡 **Note:** You may need to inject additional environment variables (like `DB_URL`) for the build to function correctly.
 
 ---
+
+# Deployment Guide
+
+## Let’s Pull the Docker Image
+
+Reference: [SSH Action by Appleboy](https://github.com/appleboy/ssh-action)
+
+### Steps to Deploy
+
+#### 1. Create an EC2 Server
+- Download its keypair file.
+- Allow HTTP/HTTPS traffic.
+- Use an Ubuntu base image.
+
+#### 2. Install Docker on the Machine
+Follow the official guide to install Docker on Ubuntu:
+[Docker Installation Guide](https://docs.docker.com/engine/install/ubuntu/)
+
+```sh
+sudo docker run hello-world
+```
+
+#### 3. Update Workflow to Pull the Latest Image on EC2
+
+```yaml
+name: Build and Deploy to Docker Hub
+
+on:
+  push:
+    branches:
+      - master  # Trigger on pushes to master
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check Out Repo
+      uses: actions/checkout@v2
+
+    - name: Prepare Dockerfile
+      run: cp ./docker/Dockerfile.user ./Dockerfile
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: 100xdevs/web-app:latest
+
+    - name: Verify Pushed Image
+      run: docker pull 100xdevs/web-app:latest
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          sudo docker pull 100xdevs/web-app:latest
+          sudo docker stop web-app || true
+          sudo docker rm web-app || true
+          sudo docker run -d --name web-app -p 3005:3000 100xdevs/web-app:latest
+```
+
+#### 4. Point Domain to Server IP
+Configure `userapp.your_domain.com` to point to the server IP.
+
+#### 5. Add nginx reverse proxy to forward requests from userapp.your_domain.com to port on which the app is running
+
+```nginx
+server {
+        server_name userapp.100xdevs.com;
+
+        location / {
+            proxy_pass http://localhost:3005;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+
+            # Basic Authentication
+            auth_basic "Restricted Content";
+            auth_basic_user_file /etc/nginx/.htpasswd;
+        }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/userapp.100xdevs.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/userapp.100xdevs.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+```
+
+#### 6. Install Certbot and Refresh Certificate
+
+```sh
+sudo certbot --nginx
+```
+
+### Take-Home Assignments
+- Get a database on **Neon.tech / RDS / Aiven** and add a DB migration step.
+- Pass in the DB credentials while starting the Docker image.
+- Start the Docker image so that it restarts if it goes down (similar to PM2).
+
+## CI/CD
+This setup ensures automated deployment and security using Docker, EC2, and Nginx with SSL.
+
+

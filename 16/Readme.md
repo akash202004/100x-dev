@@ -1,3 +1,18 @@
+# Why Monorepos?
+### Why not Simple Folders?
+Why can’t I just store services (backend, frontend, etc.) in various top-level folders?
+
+You can, and you should if:
+- Your services are **highly decoupled** (don’t share any code)
+- Your services **don’t depend on each other**
+- For Extra details - [Harkirat Notes](https://projects.100xdevs.com/tracks/monorepo/monorepo-1)
+
+# Common Monorepo Frameworks in Node.js
+- **Lerna** - [https://lerna.js.org/](https://lerna.js.org/)
+- **NX** - [https://github.com/nrwl/nx](https://github.com/nrwl/nx)
+- **Turborepo** - [https://turbo.build/](https://turbo.build/) *(Not exactly a monorepo framework, but offers build optimizations)*
+- **Yarn/NPM Workspaces** - [https://classic.yarnpkg.com/lang/en/docs/workspaces/](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
+
 # Build system vs Build system orchestrator vs Monorepo framework
 
 ![Turbo](./images/turbo.webp)

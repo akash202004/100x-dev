@@ -10,6 +10,11 @@ const zInputs = z.object({
   b: z.number(),
 });
 
+const header = z.object({
+  c: z.number(),
+  d: z.number(),
+})
+
 app.post("/sum", (req, res) => {
   const { a, b } = req.body;
   const sum = a + b;
@@ -30,5 +35,25 @@ app.post("/zsum", (req, res) => {
 
   res.json({
     Answer: answer,
+  });
+});
+
+app.get("/xsum", (req, res) => {
+  const parsedResponse = header.safeParse({
+    c: Number(req.headers["c"]),
+    d: Number(req.headers["d"]),
+  });
+
+  if (!parsedResponse.success) {
+    res.status(411).json({
+      message: "Incorrect inputs",
+    });
+    return;
+  }
+
+  const answer = parsedResponse.data.c + parsedResponse.data.d;
+
+  res.json({
+    answer,
   });
 });

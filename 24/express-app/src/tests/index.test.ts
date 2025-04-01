@@ -31,4 +31,21 @@ describe("POST /sum", () => {
     expect(res.statusCode).toBe(411);
     expect(res.body.message).toBe("Incorrect inputs");
   });
+
+  it("headers input with zod", async () => {
+    const res = await request(app)
+      .get("/xsum")
+      .set({
+        c: "1",
+        d: "2",
+      })
+      .send();
+    expect(res.statusCode).toBe(200);
+    expect(res.body.answer).toBe(3);
+  });
+
+  it("headers without input using zod", async () => {
+    const res = await request(app).get("/xsum").send();
+    expect(res.statusCode).toBe(411);
+  });
 });

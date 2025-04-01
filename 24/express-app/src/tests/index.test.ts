@@ -11,4 +11,24 @@ describe("POST /sum", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.Answer).toBe(3);
   });
+
+  it("zod checks", async () => {
+    const res = await request(app).post("/zsum").send({
+      a: 1,
+      b: 2,
+    });
+    expect(res.statusCode).toBe(200);
+    expect(res.body.Answer).toBe(3);
+  });
+
+  it("zod safreparse error", async () => {
+    const res = await request(app)
+      .post("/zsum")
+      .send({
+        a: [1234],
+        b: 2,
+      });
+    expect(res.statusCode).toBe(411);
+    expect(res.body.message).toBe("Incorrect inputs");
+  });
 });

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest",
+    "test:integration": "./scripts/run-integration.sh"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +16,9 @@
     "express": "^5.1.0",
     "prisma": "^6.6.0",
     "vitest": "^3.1.1"
+  },
+  "devDependencies": {
+    "@types/supertest": "^6.0.3",
+    "supertest": "^7.1.0"
   }
 }

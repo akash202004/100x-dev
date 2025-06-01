@@ -173,7 +173,7 @@ Then url mongodb://mongo:27017/myDatabase
 
 # docker compose
 
-- So if you have to run a a project with node.js and mongodb connection with a network and mongodb has a vloume we have to write many commnad to actually run the app with docker to make it easy for begineer we use a docker compose file to run everything in a single command.
+- So if you have to run a project with node.js and mongodb connection with a network and mongodb has a vloume we have to write many commnad to actually run the app with docker to make it easy for begineer we use a docker compose file to run everything in a single command.
 
 ![compose](./images/compose.png)
 

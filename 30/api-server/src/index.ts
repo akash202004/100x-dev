@@ -1,5 +1,5 @@
 import express from "express";
-import { orderInputSchema } from "./types";
+import { Fill, orderInputSchema } from "./types";
 import { orderbook, bookWithQuantity } from "./orderbook";
 
 const app = express();
@@ -21,7 +21,7 @@ app.post("/api/v1/order", (req, res) => {
   const { baseAsset, quoteAsset, price, quantity, side, kind } = order.data;
   const orderId = getOrderId();
 
-  if(baseAsset !== BASE_ASSET || quoteAsset !== QUOTE_ASSET) {
+  if (baseAsset !== BASE_ASSET || quoteAsset !== QUOTE_ASSET) {
     res.status(400).json({
       message: "Invalid order",
       error: "Invalid asset pair",
@@ -29,7 +29,13 @@ app.post("/api/v1/order", (req, res) => {
     return;
   }
 
-//   const {executedQty, fills} = fillOrder(orderId, price, quantity, side, kind);
+  const { executedQty, fills } = fillOrder(
+    orderId,
+    price,
+    quantity,
+    side,
+    kind
+  );
 });
 
 app.listen(3000, () => {
@@ -43,4 +49,18 @@ function getOrderId() {
   return id;
 }
 
-function fillOrder(){}
+function fillOrder(
+  orderId: string,
+  price: number,
+  quantity: number,
+  side: "BUY" | "SELL",
+  type?: "IOC"
+): { status: "accepted" | "rejected"; executedQty: number; fills: Fill[] } {
+  const fills: Fill[] = [];
+
+  return {
+    status: "accepted",
+    executedQty: 0,
+    fills,
+  };
+}

@@ -9,3 +9,10 @@ export const orderInputSchema = z.object({
     type: z.enum(["LIMIT", "MARKET"]),
     kind: z.enum(["IOC"]).optional()
 })
+
+export interface Fill {
+    price: number;
+    qty: number;
+    tradeId: number;
+  }
+  

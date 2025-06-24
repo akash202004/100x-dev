@@ -20,7 +20,7 @@ wss.on("connection", function connection(socket) {
     console.log("received: %s", data);
   });
 
-  console.log("user connected", userCount++);
+  // console.log("user connected", userCount++);
   socket.send("Hello! Message From Server!!");
 });
 

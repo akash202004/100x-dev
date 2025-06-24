@@ -403,3 +403,123 @@ const logger = winston.createLogger({
 logger.error('Hello, world!');
 logger.info('Hello, world!');
 ```
+
+# 📊 Metrics on Logs & Observability Guide
+
+## 🧾 Overview
+
+This document serves as a concise guide for adding observability and metrics on top of your logs (especially error logs), setting up performance monitoring (e.g., response times), and building a cost-effective alerting and monitoring stack.
+
+---
+
+## ⚠️ Error Log Metrics
+
+To monitor spikes in error frequency or identify errors thrown too often, you can use log-based metrics. Here’s an example NRQL query to get error log trends:
+
+```sql
+SELECT count(`message`) 
+FROM Log 
+WHERE 
+  (
+    `entity.guid` = 'NDQ2MDY2NXxBUE18QVBQTElDQVRJT058NTY0ODg2NzU5' OR 
+    `entity.guids` LIKE '%NDQ2MDY2NXxBUE18QVBQTElDQVRJT058NTY0ODg2NzU5%' OR 
+    `service_name` = 'test' OR 
+    `serviceName` = 'test' OR 
+    `service.name` = 'test' OR 
+    `entity.name` = 'test'
+  ) 
+  AND level = 'error' 
+TIMESERIES AUTO
+```
+
+![Facets Graph](./Images/26.webp)
+
+### 🎯 Track Specific Errors
+
+To drill into specific errors:
+
+```sql
+AND message LIKE '%there was an error%'
+```
+
+![Facets Graph](./Images/27.webp)
+
+---
+
+## ⏱️ Performance Metrics: Mean vs Median vs Percentiles
+
+When analyzing metrics like response time or CPU usage, **median** and **percentiles** (p95/p99) are generally better than **mean**.
+
+### 📌 Why Not Mean?
+
+Mean is skewed by outliers (e.g., one request taking 1000ms).
+
+### 📌 Percentile Example
+
+For response times:
+`[1, 2, 3, 4, 4, 4, 5, 6, 7, 9, 10, 11, 11, 11, 12, 13, 13, 13, 50, 100]`
+
+* **P95** = 50
+* **P99** = 100
+* **Median** = 10.5
+* **Mean** = \~17.55 (skewed by 100)
+
+### 🔍 Query Example
+
+```sql
+SELECT 
+  percentile(duration, 95) * 1000 AS "P95",
+  percentile(duration, 99) * 1000 AS "P99",
+  median(duration * 1000) AS "Median",
+  average(duration * 1000) AS "Average"
+FROM Transaction
+WHERE 
+  entityGuid = 'NDQ2MDY2NXxBUE18QVBQTElDQVRJT058NTY0ODg2NzU5'
+  AND transactionType = 'Web'
+LIMIT MAX 
+SINCE 1800 seconds AGO 
+EXTRAPOLATE TIMESERIES
+```
+
+![Facets Graph](./Images/29.webp)
+
+---
+## Infrastructure tab
+
+![img](./Images/28.webp)
+---
+
+## 📟 On-Call & Alerting
+
+Services like **PagerDuty** and **BetterStack** are commonly used for on-call notifications and status alerts.
+
+* 🔗 [BetterStack Uptime](https://betterstack.com/uptime)
+
+> These platforms can get **very expensive** with time and scale.
+
+---
+
+## 💸 Cost-Effective Alternative: Open Source Monitoring Stack
+
+Self-host these tools to save cost and retain control:
+
+| Tool           | Purpose                    | Link                                         |
+| -------------- | -------------------------- | -------------------------------------------- |
+| **Grafana**    | Dashboards & Visualization | [GitHub](https://github.com/grafana/grafana) |
+| **Prometheus** | Metrics Collection         | [Website](https://prometheus.io/)            |
+| **Loki**       | Log Aggregation            | [GitHub](https://github.com/grafana/loki)    |
+
+### 🛠️ Suggested Stack
+
+* **Prometheus**: Scrape metrics
+* **Loki**: Collect logs
+* **Grafana**: Visualize and alert
+
+---
+
+## ✅ Summary
+
+* Use **log metrics** to monitor error trends.
+* Prefer **median** and **percentiles (p95/p99)** over average for performance.
+* For cost savings, explore the **Grafana + Prometheus + Loki** open-source stack.
+

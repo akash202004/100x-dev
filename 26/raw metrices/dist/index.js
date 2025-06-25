@@ -17,6 +17,8 @@ const requestCounter_1 = require("./monitoring/requestCounter");
 const prom_client_1 = __importDefault(require("prom-client"));
 const app = (0, express_1.default)();
 ``;
+app.use(requestCounter_1.histogramMetrices);
+app.use(requestCounter_1.requestCouneterMiddleware);
 app.use(requestCounter_1.requestGaugeCounter);
 app.get("/user", (req, res) => {
     res.json({

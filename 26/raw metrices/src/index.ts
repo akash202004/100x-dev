@@ -1,10 +1,12 @@
 import express from "express";
-import { requestCouneterMiddleware, requestGaugeCounter } from "./monitoring/requestCounter";
+import { histogramMetrices, requestCouneterMiddleware, requestGaugeCounter } from "./monitoring/requestCounter";
 import client from "prom-client"
 
 const app = express();
 ``
 
+app.use(histogramMetrices);
+app.use(requestCouneterMiddleware);
 app.use(requestGaugeCounter);
 
 app.get("/user", (req, res) => {

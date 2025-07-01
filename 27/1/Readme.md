@@ -290,3 +290,58 @@ Check the current state of pods
 ```
 kubectl get pods
 ```
+
+---
+
+## Kubernetes manifest
+
+A manifest defines the desired state for Kubernetes resources, such as Pods, Deployments, Services, etc., in a declarative manner.
+
+- Original command
+
+```
+kubectl run nginx --image=nginx --port=80
+```
+
+- manifest.yml (file)
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+```
+
+- Breaking down the manifest
+
+![img](./images/16.webp)
+
+- Applying the manifest
+
+```
+kubectl apply -f manifest.yml
+```
+
+- Delete the pod
+
+```
+ kubectl delete pod nginx
+```
+
+---
+
+## Checkpoint
+
+We have created
+
+- Cluster
+- Nodes
+- Images
+- Containers
+- Pods

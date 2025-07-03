@@ -225,4 +225,3 @@ kubectl get pods
 
 ---
 
-Let me know if you want this in a downloadable `.md` file or want to customize it further (e.g., add your name, date, tags, or more diagrams).

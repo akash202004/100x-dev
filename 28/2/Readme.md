@@ -405,4 +405,3 @@ You can issue TLS certificates automatically for your Kubernetes services using 
 
 ![cert-manager HTTPS](./images/6.webp)
 
----
